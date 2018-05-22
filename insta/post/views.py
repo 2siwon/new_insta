@@ -1,8 +1,8 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 
-from .forms import PostForm
-from .models import Post
+from .forms import PostForm, CommentForm
+from .models import Post, PostComment
 
 
 def post_list(request):
@@ -47,10 +47,39 @@ def post_create(request):
 
 def post_detail(request, post_pk):
     if request.method == 'GET':
-        post = Post.objects.get(pk=post_pk)
+        # post = Post.objects.create(pk=post_pk)
+        post = get_object_or_404(Post, pk=post_pk)
         context = {
             'post': post,
         }
         return render(request, 'post/post_detail.html', context)
     else:
         return render(request, 'post/post_list.html')
+
+
+def comment_create(request, post_pk):
+    """
+    post_pk에 해당하는  Post에 PostComment를 작성
+    :param request:
+    :param post_pk:
+    :return:
+    """
+    post = get_object_or_404(Post, pk=post_pk)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            PostComment.objects.create(
+                post=post,
+                content=form.cleaned_data['content'],
+            )
+            return redirect('post_detail', post_pk=post_pk)
+    else:
+        form = CommentForm()
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'post/comment_create.html', context)
+

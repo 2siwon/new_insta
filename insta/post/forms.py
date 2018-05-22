@@ -14,3 +14,10 @@ class PostForm(forms.Form):
         if data != data.upper():
             raise forms.ValidationError('All text must uppercase!')
         return data
+
+
+class CommentForm(forms.Form):
+    content = forms.CharField(
+        # 엔터가능
+        widget=forms.Textarea,
+    )
