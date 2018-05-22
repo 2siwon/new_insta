@@ -12,8 +12,10 @@ def post_list(request):
     :return:
     """
     posts = Post.objects.all()
+    comment_form = CommentForm()
     context = {
         'posts': posts,
+        'comment_form': comment_form,
     }
     return render(request, 'post/post_list.html', context)
 
@@ -76,4 +78,7 @@ def comment_create(request, post_pk):
                 post=post,
                 content=form.cleaned_data['content'],
             )
+            next = request.GET.get('next')
+            if next:
+                return redirect(next)
             return redirect('post_detail', post_pk=post_pk)
