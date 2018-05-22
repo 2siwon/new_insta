@@ -13,9 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+# URL resolver는 settings.MEDIA_URL로 온 URL은
+# view를 찾는 게 아니라 document_root에서 파일을 찾아 리턴해준다.
+urlpatterns += static(
+    settings.MEIDA_URL,
+    document_root=settings.MEDIA_ROOT,
+)
