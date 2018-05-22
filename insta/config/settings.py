@@ -34,6 +34,9 @@ MEDIA_URL = '/media/'
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 
+# insta_project/insta/templates/
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
+
 DEBUG = True
 
 ALLOWED_HOSTS = [
@@ -71,7 +74,9 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            TEMPLATE_DIR,
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
