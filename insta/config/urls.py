@@ -23,6 +23,7 @@ from post import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('post/', views.post_list, name='post_list'),
+    path('post/create/', views.post_create, name='post_create'),
 ]
 
 # URL resolver는 settings.MEDIA_URL로 온 URL은
