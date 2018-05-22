@@ -49,10 +49,13 @@ def post_detail(request, post_pk):
     if request.method == 'GET':
         # post = Post.objects.create(pk=post_pk)
         post = get_object_or_404(Post, pk=post_pk)
+        comment_form = CommentForm()
         context = {
             'post': post,
+            'comment_form': comment_form,
         }
         return render(request, 'post/post_detail.html', context)
+
     else:
         return render(request, 'post/post_list.html')
 
@@ -74,12 +77,3 @@ def comment_create(request, post_pk):
                 content=form.cleaned_data['content'],
             )
             return redirect('post_detail', post_pk=post_pk)
-    else:
-        form = CommentForm()
-
-    context = {
-        'form': form,
-    }
-
-    return render(request, 'post/comment_create.html', context)
-
