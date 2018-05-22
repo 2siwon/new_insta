@@ -7,7 +7,14 @@ __all__ = (
 
 class PostForm(forms.Form):
     photo = forms.ImageField()
-    text = forms.CharField(max_length=5)
+    text = forms.CharField(
+        max_length=5,
+        widget=forms.TextInput(
+            attrs={
+                'class' : 'form-control',
+            }
+        )
+    )
 
     def clean_text(self):
         data = self.cleaned_data['text']
@@ -19,5 +26,10 @@ class PostForm(forms.Form):
 class CommentForm(forms.Form):
     content = forms.CharField(
         # 엔터가능
-        widget=forms.Textarea,
+        widget=forms.Textarea(
+            # 부트스트랩 클래스(form-control) 사용
+            attrs={
+                'class': 'form-control',
+            }
+        ),
     )
