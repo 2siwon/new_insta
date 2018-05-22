@@ -18,13 +18,16 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
+from post import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('post/', views.post_list, name='post_list'),
 ]
 
 # URL resolver는 settings.MEDIA_URL로 온 URL은
 # view를 찾는 게 아니라 document_root에서 파일을 찾아 리턴해준다.
 urlpatterns += static(
-    settings.MEIDA_URL,
+    settings.MEDIA_URL,
     document_root=settings.MEDIA_ROOT,
 )
