@@ -25,10 +25,16 @@ config_secret_common = json.loads(config_secret_common_str)
 
 SECRET_KEY = config_secret_common['django']['secret_key']
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# insta_project/insta/media/
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# URL 파일에 대한 URL prefix
+MEDIA_URL = '/media/'
+
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '*',
+]
 
 
 # Application definition
