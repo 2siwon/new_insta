@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('post/', views.post_list, name='post_list'),
     path('post/create/', views.post_create, name='post_create'),
+    path('post/detail/<int:post_pk>/', views.post_detail, name='post_detail'),
 ]
 
 # URL resolver는 settings.MEDIA_URL로 온 URL은

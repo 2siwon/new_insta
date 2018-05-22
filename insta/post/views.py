@@ -1,5 +1,7 @@
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
+from .forms import PostForm
 from .models import Post
 
 
@@ -24,8 +26,31 @@ def post_create(request):
     :return:
     """
     if request.method == 'POST':
-        # Post.objects.create(photo=request.photo)
-        print(request.POST)
-        print(request.FILES)
-    elif request.method == 'GET':
-        return render(request, 'post/post_create.html')
+        # POST 요청의 경우 PostForm 인스턴스 생성과정에서 request.POST, request.FILES 사용
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            photo = form.cleaned_data['photo']
+            post = Post.objects.create(photo=photo)
+            return HttpResponse(f'<img src={post.photo.url}>')
+
+    else:
+        # GET 요청일 경우 빈 Form 전달
+        form = PostForm()
+
+    # GET 요청 무조건 실행
+    # POST 요청에선 form.is_valid() 통과하지 못하면 이 부분 실행
+    context = {
+        'form': form,
+    }
+    return render(request, 'post/post_create.html', context)
+
+
+def post_detail(request, post_pk):
+    if request.method == 'GET':
+        post = Post.objects.get(pk=post_pk)
+        context = {
+            'post': post,
+        }
+        return render(request, 'post/post_detail.html', context)
+    else:
+        return render(request, 'post/post_list.html')
