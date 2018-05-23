@@ -18,14 +18,19 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from post import views
+from member import views as member_views
+from post import views as post_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('post/', views.post_list, name='post_list'),
-    path('post/create/', views.post_create, name='post_create'),
-    path('post/detail/<int:post_pk>/', views.post_detail, name='post_detail'),
-    path('post/<int:post_pk>/comment/create/', views.comment_create, name='comment_create')
+
+    path('post/', post_views.post_list, name='post_list'),
+    path('post/create/', post_views.post_create, name='post_create'),
+    path('post/detail/<int:post_pk>/', post_views.post_detail, name='post_detail'),
+    path('post/<int:post_pk>/comment/create/', post_views.comment_create, name='comment_create'),
+
+    path('member/signup/', member_views.signup, name='signup'),
 ]
 
 # URL resolver는 settings.MEDIA_URL로 온 URL은
