@@ -4,8 +4,7 @@
 <div class="signup">
     <form action="" method="POST">
         {% csrf_token %}
-        <label>username<input type="text" name="username"></label>
-        <label>password<input type="password" name="password"></label>
+        {{ form }}
         <button class="btn btn-block btn-primary">회원가입</button>
     </form>
 </div>
