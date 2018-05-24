@@ -2,27 +2,21 @@ from django.contrib.auth import get_user_model, authenticate, login as django_lo
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from .forms import SignupForm
+from .forms import SignupForm, LoginForm
 
 User = get_user_model()
 
 
 def login(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        # authenticate 성공시 유저 객체 반환
-        user = authenticate(
-            username=username,
-            password=password,
-        )
-
-        if user is not None:
-            django_login(request, user)
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            form.login(request)
             return redirect('post_list')
         else:
-            return HttpResponse('Login credential invalid!')
+            return HttpResponse('login credentials invalid!')
     else:
+        # GET 요청에서는 Form 을 보여줌
         return render(request, 'member/login.html')
 
 
